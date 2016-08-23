@@ -6,6 +6,7 @@ import org.spacehq.mc.protocol.data.game.chunk.Column
 import org.spacehq.mc.protocol.data.game.world.block.BlockChangeRecord
 import org.spacehq.packetlib.Client
 import org.spacehq.packetlib.tcp.TcpSessionFactory
+import xyz.jadonfowler.pabot.cmd.CommandHandler
 import java.awt.BorderLayout
 import java.awt.GridLayout
 import java.net.Proxy
@@ -17,6 +18,7 @@ class Pabot(username: String, password: String, val host: String, val port: Int 
     val client: Client
     var gameSettings: GameSettings? = null
     val chunks: ArrayList<Column> = ArrayList()
+    val commandHandlers: ArrayList<CommandHandler> = ArrayList()
 
     init {
         val protocol = MinecraftProtocol(username, password)
@@ -44,6 +46,18 @@ class Pabot(username: String, password: String, val host: String, val port: Int 
         val blockY: Int = record.position.y % 16
         val blockZ: Int = record.position.z % 16
         getChunkColumn(chunkX, chunkZ)!!.chunks[chunkY].blocks.set(blockX, blockY, blockZ, record.block)
+    }
+
+    fun addCommandHandler(handler: CommandHandler) {
+        commandHandlers.add(handler)
+    }
+
+    fun executeCommand(command: String, args: List<String>, player: String) {
+        for (handler in commandHandlers) {
+            if (handler.command.equals(command, true)) {
+                handler.execute(args, player)
+            }
+        }
     }
 
 }

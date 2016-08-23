@@ -4,12 +4,12 @@ import org.spacehq.mc.protocol.data.message.Message
 import org.spacehq.mc.protocol.packet.ingame.client.ClientChatPacket
 import org.spacehq.mc.protocol.packet.ingame.server.ServerChatPacket
 import org.spacehq.mc.protocol.packet.ingame.server.ServerJoinGamePacket
-import org.spacehq.mc.protocol.packet.ingame.server.scoreboard.ServerTeamPacket
 import org.spacehq.mc.protocol.packet.ingame.server.world.ServerBlockChangePacket
 import org.spacehq.mc.protocol.packet.ingame.server.world.ServerChunkDataPacket
 import org.spacehq.mc.protocol.packet.ingame.server.world.ServerMultiBlockChangePacket
 import org.spacehq.packetlib.event.session.*
 import org.spacehq.packetlib.packet.Packet
+import xyz.jadonfowler.pabot.msg.ChatMessage
 
 class PacketHandler(val bot: Pabot) : SessionAdapter() {
 
@@ -32,12 +32,18 @@ class PacketHandler(val bot: Pabot) : SessionAdapter() {
         when (packet) {
             is ServerJoinGamePacket -> {
                 bot.gameSettings = GameSettings(packet.difficulty, packet.dimension, packet.gameMode,
-                                                packet.hardcore, packet.maxPlayers, packet.worldType)
+                        packet.hardcore, packet.maxPlayers, packet.worldType)
                 println(bot.gameSettings)
                 event.session.send(ClientChatPacket("Hello, I'm a bot!"))
             }
             is ServerChatPacket -> {
-                println(packet.message.fullText)
+                val text = packet.message.fullText
+                println(text)
+                val message = ChatMessage(text)
+                if (message.command!!.startsWith(".")) {
+                    message.command = message.command!!.substring(1, message.command!!.length)
+                    bot.executeCommand(message.command!!, message.args!!, message.user!!)
+                }
             }
             is ServerMultiBlockChangePacket -> {
                 for (record in packet.records) {
