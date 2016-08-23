@@ -11,7 +11,7 @@ import org.spacehq.packetlib.event.session.*
 import org.spacehq.packetlib.packet.Packet
 import xyz.jadonfowler.pabot.msg.ChatMessage
 
-class PacketHandler(val bot: Pabot) : SessionAdapter() {
+class PacketHandler(val bot: Bot) : SessionAdapter() {
 
     override fun connected(event: ConnectedEvent?) {
         println("Connected to " + event!!.session.host)
