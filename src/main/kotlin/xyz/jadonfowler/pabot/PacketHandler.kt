@@ -1,12 +1,16 @@
 package xyz.jadonfowler.pabot
 
+import org.spacehq.mc.protocol.data.game.entity.metadata.Position
 import org.spacehq.mc.protocol.data.message.Message
 import org.spacehq.mc.protocol.packet.ingame.client.ClientChatPacket
 import org.spacehq.mc.protocol.packet.ingame.server.ServerChatPacket
 import org.spacehq.mc.protocol.packet.ingame.server.ServerJoinGamePacket
+import org.spacehq.mc.protocol.packet.ingame.server.entity.player.ServerPlayerPositionRotationPacket
+import org.spacehq.mc.protocol.packet.ingame.server.entity.spawn.ServerSpawnPlayerPacket
 import org.spacehq.mc.protocol.packet.ingame.server.world.ServerBlockChangePacket
 import org.spacehq.mc.protocol.packet.ingame.server.world.ServerChunkDataPacket
 import org.spacehq.mc.protocol.packet.ingame.server.world.ServerMultiBlockChangePacket
+import org.spacehq.mc.protocol.packet.ingame.server.world.ServerOpenTileEntityEditorPacket
 import org.spacehq.packetlib.event.session.*
 import org.spacehq.packetlib.packet.Packet
 import xyz.jadonfowler.pabot.msg.ChatMessage
@@ -34,7 +38,7 @@ class PacketHandler(val bot: Bot) : SessionAdapter() {
                 bot.gameSettings = GameSettings(packet.difficulty, packet.dimension, packet.gameMode,
                         packet.hardcore, packet.maxPlayers, packet.worldType)
                 println(bot.gameSettings)
-                event.session.send(ClientChatPacket("Hello, I'm a bot!"))
+                bot.sendMessage("Hello, I'm a bot!")
             }
             is ServerChatPacket -> {
                 val text = packet.message.fullText
@@ -55,6 +59,12 @@ class PacketHandler(val bot: Bot) : SessionAdapter() {
             }
             is ServerChunkDataPacket -> {
                 bot.chunks.add(packet.column)
+            }
+            is ServerPlayerPositionRotationPacket -> {
+                bot.pos = Vector3d(packet.x, packet.y, packet.z)
+                bot.pitch = packet.pitch
+                bot.yaw = packet.yaw
+                bot.sendCurrentPosition()
             }
         }
     }

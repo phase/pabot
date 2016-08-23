@@ -4,7 +4,10 @@ import org.spacehq.mc.protocol.MinecraftConstants
 import org.spacehq.mc.protocol.MinecraftProtocol
 import org.spacehq.mc.protocol.data.game.chunk.Column
 import org.spacehq.mc.protocol.data.game.world.block.BlockChangeRecord
+import org.spacehq.mc.protocol.packet.ingame.client.ClientChatPacket
+import org.spacehq.mc.protocol.packet.ingame.client.player.ClientPlayerPositionRotationPacket
 import org.spacehq.packetlib.Client
+import org.spacehq.packetlib.packet.Packet
 import org.spacehq.packetlib.tcp.TcpSessionFactory
 import xyz.jadonfowler.pabot.cmd.CommandHandler
 import java.net.Proxy
@@ -13,9 +16,12 @@ import java.util.*
 class Bot(username: String, password: String, host: String, port: Int = 25565) {
 
     var client: Client? = null
+    val commandHandlers: ArrayList<CommandHandler> = ArrayList()
     var gameSettings: GameSettings? = null
     val chunks: ArrayList<Column> = ArrayList()
-    val commandHandlers: ArrayList<CommandHandler> = ArrayList()
+    var pos: Vector3d = Vector3d(0.0, 64.0, 0.0)
+    var pitch: Float = 0f
+    var yaw: Float = 0f
 
     init {
         val protocol = MinecraftProtocol(username, password)
@@ -27,6 +33,12 @@ class Bot(username: String, password: String, host: String, port: Int = 25565) {
     fun login() {
         client?.session?.connect()
     }
+
+    fun sendPacket(packet: Packet) {
+        client?.session?.send(packet)
+    }
+
+    /* World Data */
 
     fun getChunkColumn(x: Int, z: Int): Column? {
         for (chunk in chunks) {
@@ -45,6 +57,12 @@ class Bot(username: String, password: String, host: String, port: Int = 25565) {
         getChunkColumn(chunkX, chunkZ)!!.chunks[chunkY].blocks.set(blockX, blockY, blockZ, record.block)
     }
 
+    /* Chat */
+
+    fun sendMessage(message: String) {
+        sendPacket(ClientChatPacket(message))
+    }
+
     fun addCommandHandler(handler: CommandHandler) {
         commandHandlers.add(handler)
     }
@@ -55,6 +73,30 @@ class Bot(username: String, password: String, host: String, port: Int = 25565) {
                 handler.execute(args, player)
             }
         }
+    }
+
+    /* Movement */
+
+    fun updatePosition(x: Double, y: Double, z: Double, pitch: Float, yaw: Float) {
+        sendPacket(ClientPlayerPositionRotationPacket(false, x, y, z, pitch, yaw))
+    }
+
+    fun sendCurrentPosition() {
+        updatePosition(pos.x, pos.y, pos.z, pitch, yaw)
+    }
+
+    /**
+     * Relative move to location
+     */
+    fun moveRelative(rx: Double, ry: Double, rz: Double) {
+        // TODO: Iterate over small increments and send position packets for each one
+    }
+
+    /**
+     * Absolute move to location
+     */
+    fun moveAbsolute(ax: Double, ay: Double, az: Double) {
+        moveRelative(pos.x - ax, pos.y - ay, pos.z - az)
     }
 
 }
