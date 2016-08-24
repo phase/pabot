@@ -40,7 +40,8 @@ class PacketHandler(val bot: Bot) : SessionAdapter() {
                 println(text)
                 val message = ChatMessage(text)
                 if (message.command != null && message.command!!.startsWith(bot.CHAT_PREFIX)) {
-                    message.command = message.command!!.substring(1, message.command!!.length)
+                    val len = message.command!!.length
+                    message.command = message.command!!.substring(if (len > 0) 1 else 0, if (len > 0) len else 0)
                     bot.executeCommand(message.command!!, message.args!!, message.user!!)
                 }
             }

@@ -67,6 +67,7 @@ class Bot(username: String, password: String, host: String, port: Int = 25565) {
 
     val CHAT_PREFIX = "~"
     val chatQueue = LinkedList<String>()
+    val whitelist: List<String> = Arrays.asList("phase", "VoltzLive")
 
     fun sendMessage(message: String) {
         chatQueue.add(message)
@@ -77,9 +78,11 @@ class Bot(username: String, password: String, host: String, port: Int = 25565) {
     }
 
     fun executeCommand(command: String, args: List<String>, player: String) {
-        for (handler in commandHandlers) {
-            if (handler.command.equals(command, true)) {
-                handler.execute(args, player)
+        if (whitelist.contains(player)) {
+            for (handler in commandHandlers) {
+                if (handler.command.equals(command, true)) {
+                    handler.execute(args, player)
+                }
             }
         }
     }
