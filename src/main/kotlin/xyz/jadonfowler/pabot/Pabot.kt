@@ -1,6 +1,7 @@
 package xyz.jadonfowler.pabot
 
-import xyz.jadonfowler.pabot.cmd.HelloWorldCommand
+import xyz.jadonfowler.pabot.cmd.chat.EchoCommand
+import xyz.jadonfowler.pabot.cmd.chat.HelloWorldCommand
 import java.awt.BorderLayout
 import java.awt.GridLayout
 import javax.swing.*
@@ -10,7 +11,10 @@ object Pabot {
     var bot: Bot? = null
 
     fun registerCommands() {
-        HelloWorldCommand()
+        run { // Chat Commands
+            HelloWorldCommand()
+            EchoCommand()
+        }
     }
 
 }

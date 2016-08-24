@@ -1,6 +1,7 @@
-package xyz.jadonfowler.pabot.cmd
+package xyz.jadonfowler.pabot.cmd.chat
 
 import xyz.jadonfowler.pabot.Pabot
+import xyz.jadonfowler.pabot.cmd.CommandHandler
 
 class HelloWorldCommand : CommandHandler("hello") {
 
