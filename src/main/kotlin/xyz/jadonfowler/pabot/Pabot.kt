@@ -1,5 +1,6 @@
 package xyz.jadonfowler.pabot
 
+import xyz.jadonfowler.pabot.cmd.HelloWorldCommand
 import java.awt.BorderLayout
 import java.awt.GridLayout
 import javax.swing.*
@@ -8,10 +9,15 @@ object Pabot {
 
     var bot: Bot? = null
 
+    fun registerCommands() {
+        HelloWorldCommand()
+    }
+
 }
 
 fun main(args: Array<String>) {
     val bot = getBotFromPopup()
+    Pabot.registerCommands()
     bot.login()
 }
 

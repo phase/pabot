@@ -59,6 +59,8 @@ class Bot(username: String, password: String, host: String, port: Int = 25565) {
 
     /* Chat */
 
+    val CHAT_PREFIX = "~"
+
     fun sendMessage(message: String) {
         sendPacket(ClientChatPacket(message))
     }
