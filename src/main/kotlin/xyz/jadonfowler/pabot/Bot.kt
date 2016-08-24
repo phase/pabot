@@ -32,6 +32,12 @@ class Bot(username: String, password: String, host: String, port: Int = 25565) {
 
     fun login() {
         client?.session?.connect()
+        Thread {
+            while (true) {
+                if (chatQueue.size > 0) sendPacket(ClientChatPacket(chatQueue.pollFirst()))
+                Thread.sleep(1000)
+            }
+        }.start()
     }
 
     fun sendPacket(packet: Packet) {
@@ -60,9 +66,10 @@ class Bot(username: String, password: String, host: String, port: Int = 25565) {
     /* Chat */
 
     val CHAT_PREFIX = "~"
+    val chatQueue = LinkedList<String>()
 
     fun sendMessage(message: String) {
-        sendPacket(ClientChatPacket(message))
+        chatQueue.add(message)
     }
 
     fun addCommandHandler(handler: CommandHandler) {
