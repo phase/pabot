@@ -65,7 +65,7 @@ class Bot(username: String, password: String, host: String, port: Int = 25565) {
 
     /* Chat */
 
-    val CHAT_PREFIX = "~"
+    val CHAT_PREFIX = "."
     val chatQueue = LinkedList<String>()
     val whitelist: List<String> = Arrays.asList("phase", "VoltzLive")
 
@@ -101,7 +101,26 @@ class Bot(username: String, password: String, host: String, port: Int = 25565) {
      * Relative move to location
      */
     fun moveRelative(rx: Double, ry: Double, rz: Double) {
-        // TODO: Iterate over small increments and send position packets for each one
+        // Direction to face
+        val c = Math.sqrt(rx * rx + rz * rz)
+        val a1 = -Math.asin(rx / c) / Math.PI * 180
+        val a2 = Math.acos(rz / c) / Math.PI * 180
+        yaw = if (rx == 0.0 && rz == 0.0) 0f else if (a2 > 90) (180f - a1).toFloat() else a1.toFloat()
+        pitch = Math.atan(ry / c).toFloat()
+
+        // Steps to iterate over
+        val steps = (2 * Math.floor(Math.sqrt(Math.pow(rx, 2.0) + Math.pow(ry, 2.0) + Math.pow(rz, 2.0)))).toInt()
+        val sx = rx / steps
+        val sy = ry / steps
+        val sz = rz / steps
+        for (i in 0..steps - 1) {
+            pos.x += sx
+            pos.y += sy
+            pos.z += sz
+            println("Movement: $rx, $ry, $rz; $sx, $sy, $sz. $i in $steps.")
+            sendPacket(ClientPlayerPositionRotationPacket(false, pos.x, pos.y, pos.z, yaw, pitch))
+            Thread.sleep(100)
+        }
     }
 
     /**

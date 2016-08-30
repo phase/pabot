@@ -2,6 +2,7 @@ package xyz.jadonfowler.pabot
 
 import xyz.jadonfowler.pabot.cmd.chat.EchoCommand
 import xyz.jadonfowler.pabot.cmd.chat.HelloWorldCommand
+import xyz.jadonfowler.pabot.cmd.movement.MoveCommand
 import java.awt.BorderLayout
 import java.awt.GridLayout
 import javax.swing.*
@@ -14,6 +15,7 @@ object Pabot {
         run { // Chat Commands
             HelloWorldCommand()
             EchoCommand()
+            MoveCommand()
         }
     }
 
