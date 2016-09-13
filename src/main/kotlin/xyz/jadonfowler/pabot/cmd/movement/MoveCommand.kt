@@ -7,7 +7,7 @@ class MoveCommand : CommandHandler("move") {
 
     override fun execute(args: List<String>, player: String) {
         if (args.size != 3) {
-            Pabot.bot!!.sendMessage("Usage: move x y z")
+            Pabot.bot!!.sendPrivateMessage("Usage: move x y z", player)
             return
         }
         var x = if (args[0].startsWith("~")) Pabot.bot!!.pos.x - args[0].substring(1, args[0].length - 1).toDouble() else args[0].toDouble()

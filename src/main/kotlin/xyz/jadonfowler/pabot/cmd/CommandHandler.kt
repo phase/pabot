@@ -8,6 +8,10 @@ abstract class CommandHandler(val command: String) {
         Pabot.bot?.addCommandHandler(this)
     }
 
+    /**
+     * @param args Arguments for command
+     * @param player Player who executed the command
+     */
     abstract fun execute(args: List<String>, player: String)
 
 }

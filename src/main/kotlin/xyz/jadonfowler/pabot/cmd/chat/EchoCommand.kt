@@ -9,7 +9,7 @@ class EchoCommand : CommandHandler("echo") {
         var message = ""
         for (m in args) message += m + " "
         message = message.substring(0, if (message.length > 0) message.length - 1 else 0)
-        Pabot.bot?.sendMessage(message)
+        Pabot.bot?.sendPrivateMessage(message, player)
     }
 
 }

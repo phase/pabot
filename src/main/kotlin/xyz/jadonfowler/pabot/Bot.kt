@@ -73,17 +73,17 @@ class Bot(username: String, password: String, host: String, port: Int = 25565) {
         chatQueue.add(message)
     }
 
+    fun sendPrivateMessage(message: String, user: String) {
+        sendMessage("/msg $user $message")
+    }
+
     fun addCommandHandler(handler: CommandHandler) {
         commandHandlers.add(handler)
     }
 
     fun executeCommand(command: String, args: List<String>, player: String) {
         if (whitelist.contains(player)) {
-            for (handler in commandHandlers) {
-                if (handler.command.equals(command, true)) {
-                    handler.execute(args, player)
-                }
-            }
+            commandHandlers.filter { it.command.equals(command, true) }.map { it.execute(args, player) }
         }
     }
 
