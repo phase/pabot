@@ -1,17 +1,17 @@
 package xyz.jadonfowler.pabot
 
-import org.spacehq.mc.protocol.data.message.Message
-import org.spacehq.mc.protocol.packet.ingame.server.ServerChatPacket
-import org.spacehq.mc.protocol.packet.ingame.server.ServerJoinGamePacket
-import org.spacehq.mc.protocol.packet.ingame.server.entity.player.ServerPlayerPositionRotationPacket
-import org.spacehq.mc.protocol.packet.ingame.server.world.ServerBlockChangePacket
-import org.spacehq.mc.protocol.packet.ingame.server.world.ServerChunkDataPacket
-import org.spacehq.mc.protocol.packet.ingame.server.world.ServerMultiBlockChangePacket
-import org.spacehq.packetlib.event.session.ConnectedEvent
-import org.spacehq.packetlib.event.session.DisconnectedEvent
-import org.spacehq.packetlib.event.session.PacketReceivedEvent
-import org.spacehq.packetlib.event.session.SessionAdapter
-import org.spacehq.packetlib.packet.Packet
+import com.github.steveice10.mc.protocol.data.message.Message
+import com.github.steveice10.mc.protocol.packet.ingame.server.ServerChatPacket
+import com.github.steveice10.mc.protocol.packet.ingame.server.ServerJoinGamePacket
+import com.github.steveice10.mc.protocol.packet.ingame.server.entity.player.ServerPlayerPositionRotationPacket
+import com.github.steveice10.mc.protocol.packet.ingame.server.world.ServerBlockChangePacket
+import com.github.steveice10.mc.protocol.packet.ingame.server.world.ServerChunkDataPacket
+import com.github.steveice10.mc.protocol.packet.ingame.server.world.ServerMultiBlockChangePacket
+import com.github.steveice10.packetlib.event.session.ConnectedEvent
+import com.github.steveice10.packetlib.event.session.DisconnectedEvent
+import com.github.steveice10.packetlib.event.session.PacketReceivedEvent
+import com.github.steveice10.packetlib.event.session.SessionAdapter
+import com.github.steveice10.packetlib.packet.Packet
 import xyz.jadonfowler.pabot.msg.ChatMessage
 
 class PacketHandler(val bot: Bot) : SessionAdapter() {
@@ -39,10 +39,10 @@ class PacketHandler(val bot: Bot) : SessionAdapter() {
                 val text = packet.message.fullText
                 println(text)
                 val message = ChatMessage(text)
-                if (message.command != null && message.command!!.startsWith(bot.CHAT_PREFIX)) {
-                    val len = message.command!!.length
-                    message.command = message.command!!.substring(if (len > 0) 1 else 0, if (len > 0) len else 0)
-                    bot.executeCommand(message.command!!, message.args!!, message.user!!)
+                if (message.command.startsWith(bot.CHAT_PREFIX)) {
+                    val len = message.command.length
+                    message.command = message.command.substring(if (len > 0) 1 else 0, if (len > 0) len else 0)
+                    bot.executeCommand(message.command, message.args, message.user!!)
                 }
             }
             is ServerMultiBlockChangePacket -> {

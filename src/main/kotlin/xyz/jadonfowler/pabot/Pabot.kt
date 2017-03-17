@@ -40,7 +40,7 @@ fun getBotFromPopup(): Bot {
     val username = JTextField()
     val password = JPasswordField()
     val serverAddress = JTextField()
-    serverAddress.text = "84.215.69.184:25569" // For testing
+    serverAddress.text = "mc.openredstone.org:25565" // For testing
     controls.add(username)
     controls.add(password)
     controls.add(serverAddress)

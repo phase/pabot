@@ -1,14 +1,14 @@
 package xyz.jadonfowler.pabot
 
-import org.spacehq.mc.protocol.MinecraftConstants
-import org.spacehq.mc.protocol.MinecraftProtocol
-import org.spacehq.mc.protocol.data.game.chunk.Column
-import org.spacehq.mc.protocol.data.game.world.block.BlockChangeRecord
-import org.spacehq.mc.protocol.packet.ingame.client.ClientChatPacket
-import org.spacehq.mc.protocol.packet.ingame.client.player.ClientPlayerPositionRotationPacket
-import org.spacehq.packetlib.Client
-import org.spacehq.packetlib.packet.Packet
-import org.spacehq.packetlib.tcp.TcpSessionFactory
+import com.github.steveice10.mc.protocol.MinecraftConstants
+import com.github.steveice10.mc.protocol.MinecraftProtocol
+import com.github.steveice10.mc.protocol.data.game.chunk.Column
+import com.github.steveice10.mc.protocol.data.game.world.block.BlockChangeRecord
+import com.github.steveice10.mc.protocol.packet.ingame.client.ClientChatPacket
+import com.github.steveice10.mc.protocol.packet.ingame.client.player.ClientPlayerPositionRotationPacket
+import com.github.steveice10.packetlib.Client
+import com.github.steveice10.packetlib.packet.Packet
+import com.github.steveice10.packetlib.tcp.TcpSessionFactory
 import xyz.jadonfowler.pabot.cmd.CommandHandler
 import java.net.Proxy
 import java.util.*
@@ -67,7 +67,7 @@ class Bot(username: String, password: String, host: String, port: Int = 25565) {
 
     val CHAT_PREFIX = "."
     val chatQueue = LinkedList<String>()
-    val whitelist: List<String> = Arrays.asList("phase", "VoltzLive")
+    val whitelist: List<String> = Arrays.asList("Phase", "VoltzLive")
 
     fun sendMessage(message: String) {
         chatQueue.add(message)

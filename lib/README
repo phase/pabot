@@ -1,8 +1,0 @@
-Why are we not using the Maven repository for MCProtocolLib?
-
-OpenJDK can't deal with Cloudflare SSL
-OracleJDK can't find the certificate for repo.spacehq.org
-Neither can OpenSSL
-
-I'm too lazy to solve a problem that has an alternate solution that
-takes 30 seconds.

@@ -15,10 +15,10 @@ apply plugin: 'kotlin'
 
 repositories {
     mavenCentral()
+    maven { url 'https://jitpack.io' }
 }
 
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib:1.0.1"
-    compile fileTree(dir: 'lib', include: ['*.jar'])
-    testCompile group: 'junit', name: 'junit', version: '4.11'
+    compile "com.github.Steveice10:MCProtocolLib:1.11.2-1"
 }

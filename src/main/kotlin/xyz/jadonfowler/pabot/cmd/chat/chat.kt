@@ -8,8 +8,16 @@ class EchoCommand : CommandHandler("echo") {
     override fun execute(args: List<String>, player: String) {
         var message = ""
         for (m in args) message += m + " "
-        message = message.substring(0, if (message.length > 0) message.length - 1 else 0)
+        message = message.substring(0, if (message.isNotEmpty()) message.length - 1 else 0)
         Pabot.bot?.sendPrivateMessage(message, player)
+    }
+
+}
+
+class HelloWorldCommand : CommandHandler("hello") {
+
+    override fun execute(args: List<String>, player: String) {
+        Pabot.bot?.sendPrivateMessage("Hello, " + player, player)
     }
 
 }
