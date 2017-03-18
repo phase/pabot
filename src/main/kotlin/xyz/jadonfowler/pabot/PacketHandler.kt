@@ -23,6 +23,7 @@ class PacketHandler(val bot: Bot) : SessionAdapter() {
     override fun disconnected(event: DisconnectedEvent?) {
         val reason = Message.fromString(event!!.reason).fullText
         println("Disconnected: " + reason)
+        System.exit(0)
     }
 
     override fun packetReceived(event: PacketReceivedEvent?) {
