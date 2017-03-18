@@ -5,7 +5,7 @@ import xyz.jadonfowler.pabot.Pabot
 abstract class CommandHandler(val command: String) {
 
     init {
-        Pabot.bot?.addCommandHandler(this)
+        Pabot.bot.addCommandHandler(this)
     }
 
     /**

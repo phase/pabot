@@ -13,7 +13,7 @@ import xyz.jadonfowler.pabot.cmd.CommandHandler
 import java.net.Proxy
 import java.util.*
 
-class Bot(username: String, password: String, host: String, port: Int = 25565) {
+class Bot(val username: String, var password: String, val host: String, val port: Int = 25565) {
 
     var client: Client? = null
     val commandHandlers: ArrayList<CommandHandler> = ArrayList()
@@ -23,7 +23,7 @@ class Bot(username: String, password: String, host: String, port: Int = 25565) {
     var pitch: Float = 0f
     var yaw: Float = 0f
 
-    init {
+    fun init() {
         val protocol = MinecraftProtocol(username, password)
         client = Client(host, port, protocol, TcpSessionFactory(Proxy.NO_PROXY))
         client?.session?.setFlag(MinecraftConstants.AUTH_PROXY_KEY, Proxy.NO_PROXY)
@@ -67,7 +67,7 @@ class Bot(username: String, password: String, host: String, port: Int = 25565) {
 
     val CHAT_PREFIX = "."
     val chatQueue = LinkedList<String>()
-    val whitelist: List<String> = Arrays.asList("Phase", "VoltzLive")
+    val whitelist: List<String> = Arrays.asList("Phase", "VoltzLive", "Done_Manuel_1337")
 
     fun sendMessage(message: String) {
         chatQueue.add(message)

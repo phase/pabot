@@ -20,7 +20,7 @@ class ChatMessage(input: String) {
             user = ore_pm.group(2)
             val message = ore_pm.group(3)
             if (message.contains(" ")) {
-                command = Pabot.bot!!.CHAT_PREFIX + message.split(" ")[0]
+                command = Pabot.bot.CHAT_PREFIX + message.split(" ")[0]
                 args = message.split(" ").subList(1, message.split(" ").size)
             } else {
                 command = message

@@ -9,7 +9,7 @@ class EchoCommand : CommandHandler("echo") {
         var message = ""
         for (m in args) message += m + " "
         message = message.substring(0, if (message.isNotEmpty()) message.length - 1 else 0)
-        Pabot.bot?.sendPrivateMessage(message, player)
+        Pabot.bot.sendPrivateMessage(message, player)
     }
 
 }
@@ -17,7 +17,16 @@ class EchoCommand : CommandHandler("echo") {
 class HelloWorldCommand : CommandHandler("hello") {
 
     override fun execute(args: List<String>, player: String) {
-        Pabot.bot?.sendPrivateMessage("Hello, " + player, player)
+        Pabot.bot.sendPrivateMessage("Hello, " + player, player)
+    }
+
+}
+
+class SudoCommand : CommandHandler("sudo") {
+
+    override fun execute(args: List<String>, player: String) {
+        val command = args.joinToString(" ")
+        Pabot.bot.sendMessage("/$command")
     }
 
 }

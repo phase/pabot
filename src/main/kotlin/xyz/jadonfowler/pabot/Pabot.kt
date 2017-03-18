@@ -2,6 +2,7 @@ package xyz.jadonfowler.pabot
 
 import xyz.jadonfowler.pabot.cmd.chat.EchoCommand
 import xyz.jadonfowler.pabot.cmd.chat.HelloWorldCommand
+import xyz.jadonfowler.pabot.cmd.chat.SudoCommand
 import xyz.jadonfowler.pabot.cmd.movement.MoveCommand
 import java.awt.BorderLayout
 import java.awt.GridLayout
@@ -9,12 +10,15 @@ import javax.swing.*
 
 object Pabot {
 
-    var bot: Bot? = null
+    var bot = Bot("", "", "", -1)
 
     fun registerCommands() {
-        run { // Chat Commands
+        run {
+            // Chat Commands
             HelloWorldCommand()
             EchoCommand()
+            SudoCommand()
+            // Movement Commands
             MoveCommand()
         }
     }
@@ -49,5 +53,6 @@ fun getBotFromPopup(): Bot {
     JOptionPane.showMessageDialog(null, panel, "pabot - Login", JOptionPane.QUESTION_MESSAGE)
 
     Pabot.bot = Bot(username.text, String(password.password), serverAddress.text.split(":")[0], serverAddress.text.split(":")[1].toInt())
-    return Pabot.bot!!
+    Pabot.bot.init()
+    return Pabot.bot
 }
